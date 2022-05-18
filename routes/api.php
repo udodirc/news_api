@@ -17,3 +17,25 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group(
+    [
+        'namespace' => 'App\\Http\\Api\\Controllers'
+    ],
+    function () {
+        Route::group(
+            [
+                'prefix' => 'news'
+            ],
+            function () {
+                // Queries
+                Route::get('/', 'NewsController@index');
+
+                // Commands
+                Route::post('/', 'NewsController@store');
+                Route::put('/{id}', 'NewsController@update');
+                Route::delete('/{id}', 'NewsController@destroy');
+            }
+        );
+    }
+);

@@ -1,0 +1,317 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "NEWS API",
+        "contact": {
+            "email": ""
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://0.0.0.0:8000/api",
+            "description": "Base server for development"
+        }
+    ],
+    "paths": {
+        "/news": {
+            "get": {
+                "tags": [
+                    "News"
+                ],
+                "summary": "List of news",
+                "operationId": "newsList",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NewsResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "News"
+                ],
+                "summary": "Create a news",
+                "operationId": "createNews",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/NewsCreateRequestBody"
+                },
+                "responses": {
+                    "422": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InvalidDataResponse"
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/News"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/news/{id}": {
+            "put": {
+                "tags": [
+                    "News"
+                ],
+                "summary": "Update News state",
+                "operationId": "NewsUpdate",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/NewsUpdateRequestBody"
+                },
+                "responses": {
+                    "422": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InvalidDataResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Not found news for update"
+                    },
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/News"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "News"
+                ],
+                "summary": "Destroy News",
+                "operationId": "NewsDestroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "422": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InvalidDataResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "NewsCreateRequestBody": {
+                "required": [
+                    "user_id",
+                    "title",
+                    "link"
+                ],
+                "properties": {
+                    "user_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "title": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "Title"
+                    },
+                    "link": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "Link"
+                    }
+                },
+                "type": "object"
+            },
+            "NewsUpdateRequestBody": {
+                "required": [
+                    "user_id",
+                    "title",
+                    "link"
+                ],
+                "properties": {
+                    "user_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "title": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "Title"
+                    },
+                    "link": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "Link"
+                    }
+                },
+                "type": "object"
+            },
+            "InvalidDataResponse": {
+                "required": [
+                    "errors",
+                    "message"
+                ],
+                "properties": {
+                    "errors": {
+                        "description": "$errors",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "any validation error"
+                        }
+                    },
+                    "message": {
+                        "description": "$message",
+                        "type": "string",
+                        "example": "any error message"
+                    }
+                },
+                "type": "object"
+            },
+            "UnauthorizedResponse": {
+                "required": [
+                    "message"
+                ],
+                "properties": {
+                    "message": {
+                        "description": "$message",
+                        "type": "string",
+                        "example": "Unthorized"
+                    }
+                },
+                "type": "object"
+            },
+            "News": {
+                "required": [
+                    "user_id",
+                    "title",
+                    "link",
+                    "upvotes"
+                ],
+                "properties": {
+                    "user_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "title": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "Title"
+                    },
+                    "link": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "Link"
+                    },
+                    "upvotes": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "NewsResponse": {
+                "required": [
+                    "data"
+                ],
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/News"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "requestBodies": {
+            "NewsCreateRequestBody": {
+                "description": "News request body",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/NewsCreateRequestBody"
+                        }
+                    }
+                }
+            },
+            "NewsUpdateRequestBody": {
+                "description": "News request body",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/NewsUpdateRequestBody"
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "News",
+            "description": "News"
+        }
+    ],
+    "security": [
+        []
+    ]
+}
