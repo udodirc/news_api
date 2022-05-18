@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('title');
             $table->string('link');
-            $table->integer('upvotes');
+            $table->integer('upvotes')->nullable();
             $table->timestamps();
         });
     }
