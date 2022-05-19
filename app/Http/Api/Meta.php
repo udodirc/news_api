@@ -21,6 +21,10 @@ namespace App\Http\Api;
  *     name="News",
  *     description="News"
  * )
+ * @OA\Tag(
+ *     name="Comments",
+ *     description="Comments"
+ * )
  *
  * @OA\Server(
  *     description="Base server for development",

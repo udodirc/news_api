@@ -5,19 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class News extends Model
+class Comments extends Model
 {
     use HasFactory;
-
-    protected $table = 'news';
+    protected $table = 'comments';
 
     protected $fillable = [
+        'news_id',
         'user_id',
-        'title',
-        'link',
-        'upvotes'
+        'content'
     ];
 
     public function user(): BelongsTo
@@ -25,8 +22,8 @@ class News extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function comments(): HasMany
+    public function news(): BelongsTo
     {
-        return $this->hasMany(Comments::class);
+        return $this->belongsTo(News::class, 'news_id');
     }
 }
