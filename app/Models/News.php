@@ -22,11 +22,11 @@ class News extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function comments(): HasMany
     {
-        return $this->hasMany(Comments::class, 'news_id');
+        return $this->hasMany(Comments::class);
     }
 }

@@ -19,11 +19,11 @@ class Comments extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function news(): BelongsTo
     {
-        return $this->belongsTo(News::class, 'id');
+        return $this->belongsTo(News::class, 'news_id');
     }
 }

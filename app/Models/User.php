@@ -45,11 +45,11 @@ class User extends Authenticatable
 
     public function news(): HasMany
     {
-        return $this->hasMany(News::class, 'user_id');
+        return $this->hasMany(News::class);
     }
 
     public function comments(): HasMany
     {
-        return $this->hasMany(News::class, 'user_id');
+        return $this->hasMany(News::class);
     }
 }
