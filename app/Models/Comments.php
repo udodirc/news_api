@@ -9,13 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Comments extends Model
 {
     use HasFactory;
-    protected $table = 'news';
+    protected $table = 'comments';
 
     protected $fillable = [
+        'news_id',
         'user_id',
-        'title',
-        'link',
-        'upvotes'
+        'content'
     ];
 
     public function user(): BelongsTo
