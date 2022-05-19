@@ -37,5 +37,20 @@ Route::group(
                 Route::delete('/{id}', 'NewsController@destroy');
             }
         );
-    }
+
+        Route::group(
+            [
+                'prefix' => 'comments'
+            ],
+            function () {
+                // Queries
+                Route::get('/', 'CommentsController@index');
+
+                // Commands
+                Route::post('/', 'CommentsController@store');
+                Route::put('/{id}', 'CommentsController@update');
+                Route::delete('/{id}', 'CommentsController@destroy');
+            }
+        );
+    },
 );
