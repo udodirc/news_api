@@ -225,12 +225,11 @@ class NewsController extends BaseController
      *      )
      * )
      */
-    public function upvote(int $type, int $id): JsonResponse
+    public function upvote(int $type, int $id)
     {
         if ( ! ($news = $this->newsRepository->find($id))) {
             return $this->responseBadRequest();
         }
-        $news = $this->newsRepository->upvote($type, $news);
 
         try {
             if ( ! $this->newsRepository->upvote($type, $news)) {

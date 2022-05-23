@@ -32,7 +32,7 @@ Route::group(
                 Route::post('/', 'NewsController@store');
                 Route::put('/{id}', 'NewsController@update');
                 Route::delete('/{id}', 'NewsController@destroy');
-                Route::post('/upvote/{type}/{news}', 'NewsController@upvote');
+                Route::post('/upvote/{type}/{id}', 'NewsController@upvote');
             }
         );
 
