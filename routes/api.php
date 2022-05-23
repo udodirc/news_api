@@ -28,13 +28,11 @@ Route::group(
                 'prefix' => 'news'
             ],
             function () {
-                // Queries
                 Route::get('/', 'NewsController@index');
-
-                // Commands
                 Route::post('/', 'NewsController@store');
                 Route::put('/{id}', 'NewsController@update');
                 Route::delete('/{id}', 'NewsController@destroy');
+                Route::post('/upvote/{type}/{news}', 'NewsController@upvote');
             }
         );
 
@@ -43,10 +41,7 @@ Route::group(
                 'prefix' => 'comments'
             ],
             function () {
-                // Queries
                 Route::get('/', 'CommentsController@index');
-
-                // Commands
                 Route::post('/', 'CommentsController@store');
                 Route::put('/{id}', 'CommentsController@update');
                 Route::delete('/{id}', 'CommentsController@destroy');
