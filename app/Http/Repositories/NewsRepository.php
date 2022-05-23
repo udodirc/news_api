@@ -6,6 +6,7 @@ use App\Http\Requests\NewsCreateRequest;
 use App\Http\Requests\NewsUpdateRequest;
 use App\Models\News;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 class NewsRepository
 {
@@ -52,5 +53,19 @@ class NewsRepository
     public function destroy(News $news): bool
     {
         return (bool)$news->delete();
+    }
+
+    /**
+     * @param int $type
+     * @param News $news
+     * @return bool
+     */
+    public function upvote(int $type, News $news): bool
+    {
+        if($type){
+            return (bool)$news->increment('upvotes');
+        } else{
+            return (bool)$news->decrement('upvotes');
+        }
     }
 }

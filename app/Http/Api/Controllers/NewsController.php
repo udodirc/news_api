@@ -77,9 +77,9 @@ class NewsController extends BaseController
     public function store(NewsCreateRequest $request): JsonResponse
     {
         $news = $this->newsRepository->create($request);
-        $newsResource = News::make($news);
+        $resource = News::make($news);
 
-        return $this->responseCreated($newsResource);
+        return $this->responseCreated($resource);
     }
 
     /**
@@ -183,6 +183,66 @@ class NewsController extends BaseController
                 $exception->errors()
             );
         }
+        return response()->noContent();
+    }
+
+    /**
+     * @param int $type
+     * @param int $id
+     *
+     * @return JsonResponse|Response
+     *
+     * @OA\Post (
+     *      path="/news/upvote/{type}/{id}",
+     *      operationId="NewsUpvote",
+     *      summary="Upvote News",
+     *      tags={"News"},
+     *
+     *     @OA\Parameter (
+     *          name = "type",
+     *          in = "path",
+     *          required = true,
+     *			@OA\Schema(
+     *             type="integer"
+     *         )
+     *      ),
+     *
+     *     @OA\Parameter (
+     *          name = "id",
+     *          in = "path",
+     *          required = true,
+     *			@OA\Schema(
+     *             type="integer"
+     *         )
+     *      ),
+     *
+     *	    @OA\Response(
+     *          response=422,
+     *          description="",
+     *          @OA\JsonContent(
+     *              ref="#/components/schemas/InvalidDataResponse"
+     *          )
+     *      )
+     * )
+     */
+    public function upvote(int $type, int $id): JsonResponse
+    {
+        if ( ! ($news = $this->newsRepository->find($id))) {
+            return $this->responseBadRequest();
+        }
+        $news = $this->newsRepository->upvote($type, $news);
+
+        try {
+            if ( ! $this->newsRepository->upvote($type, $news)) {
+                return $this->responseBadRequest();
+            }
+        } catch (ValidationException $exception) {
+            return $this->responseInvalidData(
+                $exception->getMessage(),
+                $exception->errors()
+            );
+        }
+
         return response()->noContent();
     }
 }
