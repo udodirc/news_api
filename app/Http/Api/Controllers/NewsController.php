@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Api\Controllers;
+
 use App\Http\Resources\Schemas\NewsResponse;
 use App\Http\Resources\Schemas\News;
 use App\Http\Repositories\NewsRepository;
@@ -28,7 +29,7 @@ class NewsController extends BaseController
      *      summary="List of news",
      *      tags={"News"},
      *
-     *	    @OA\Response(
+     *      @OA\Response(
      *          response=200,
      *          description="",
      *          @OA\JsonContent(
@@ -37,7 +38,7 @@ class NewsController extends BaseController
      *      )
      * )
      */
-    public function index(NewsRepository $newsRepository)
+    public function index(NewsRepository $newsRepository): JsonResponse
     {
         $data = $newsRepository->all();
         $resource = NewsResponse::make($data);
@@ -57,7 +58,7 @@ class NewsController extends BaseController
      *      tags={"News"},
      *      requestBody={"$ref": "#/components/requestBodies/NewsCreateRequestBody"},
      *
-     *	    @OA\Response(
+     *      @OA\Response(
      *          response=422,
      *          description="",
      *          @OA\JsonContent(
@@ -65,7 +66,7 @@ class NewsController extends BaseController
      *          )
      *      ),
      *
-     *	    @OA\Response(
+     *      @OA\Response(
      *          response=201,
      *          description="",
      *          @OA\JsonContent(
@@ -99,12 +100,12 @@ class NewsController extends BaseController
      *          name = "id",
      *          in = "path",
      *          required = true,
-     *			@OA\Schema(
+     *          @OA\Schema(
      *             type="integer"
      *         )
      *      ),
      *
-     *	    @OA\Response(
+     *      @OA\Response(
      *          response=422,
      *          description="",
      *          @OA\JsonContent(
@@ -112,12 +113,12 @@ class NewsController extends BaseController
      *          )
      *      ),
      *
-     *	    @OA\Response(
+     *      @OA\Response(
      *          response=400,
      *          description="Not found news for update"
      *      ),
      *
-     *	    @OA\Response(
+     *      @OA\Response(
      *          response=200,
      *          description="",
      *          @OA\JsonContent(
@@ -128,7 +129,7 @@ class NewsController extends BaseController
      */
     public function update(int $id, NewsUpdateRequest $request): JsonResponse
     {
-        if ( ! ($news = $this->newsRepository->find($id))) {
+        if (! ($news = $this->newsRepository->find($id))) {
             return $this->responseBadRequest();
         }
 
@@ -153,12 +154,12 @@ class NewsController extends BaseController
      *          name = "id",
      *          in = "path",
      *          required = true,
-     *			@OA\Schema(
+     *          @OA\Schema(
      *             type="integer"
      *         )
      *      ),
      *
-     *	    @OA\Response(
+     *      @OA\Response(
      *          response=422,
      *          description="",
      *          @OA\JsonContent(
@@ -167,14 +168,14 @@ class NewsController extends BaseController
      *      )
      * )
      */
-    public function destroy(int $id)
+    public function destroy(int $id): Response|JsonResponse
     {
-        if ( ! $news = $this->newsRepository->find($id)) {
+        if (! $news = $this->newsRepository->find($id)) {
             return $this->responseBadRequest();
         }
 
         try {
-            if ( ! $this->newsRepository->destroy($news)) {
+            if (! $this->newsRepository->destroy($news)) {
                 return $this->responseBadRequest();
             }
         } catch (ValidationException $exception) {
@@ -202,7 +203,7 @@ class NewsController extends BaseController
      *          name = "type",
      *          in = "path",
      *          required = true,
-     *			@OA\Schema(
+     *          @OA\Schema(
      *             type="integer"
      *         )
      *      ),
@@ -211,12 +212,12 @@ class NewsController extends BaseController
      *          name = "id",
      *          in = "path",
      *          required = true,
-     *			@OA\Schema(
+     *          @OA\Schema(
      *             type="integer"
      *         )
      *      ),
      *
-     *	    @OA\Response(
+     *      @OA\Response(
      *          response=422,
      *          description="",
      *          @OA\JsonContent(
@@ -225,14 +226,14 @@ class NewsController extends BaseController
      *      )
      * )
      */
-    public function upvote(int $type, int $id)
+    public function upvote(int $type, int $id): Response|JsonResponse
     {
-        if ( ! ($news = $this->newsRepository->find($id))) {
+        if (! ($news = $this->newsRepository->find($id))) {
             return $this->responseBadRequest();
         }
 
         try {
-            if ( ! $this->newsRepository->upvote($type, $news)) {
+            if (! $this->newsRepository->upvote($type, $news)) {
                 return $this->responseBadRequest();
             }
         } catch (ValidationException $exception) {

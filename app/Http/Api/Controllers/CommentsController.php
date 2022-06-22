@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Api\Controllers;
+
 use App\Http\Resources\Schemas\CommentsResponse;
 use App\Http\Resources\Schemas\Comments;
 use App\Http\Repositories\CommentsRepository;
@@ -28,7 +29,7 @@ class CommentsController extends BaseController
      *      summary="List of Comments",
      *      tags={"Comments"},
      *
-     *	    @OA\Response(
+     *      @OA\Response(
      *          response=200,
      *          description="",
      *          @OA\JsonContent(
@@ -37,7 +38,7 @@ class CommentsController extends BaseController
      *      )
      * )
      */
-    public function index(CommentsRepository $commentsRepository)
+    public function index(CommentsRepository $commentsRepository): JsonResponse
     {
         $data = $commentsRepository->all();
         $resource = CommentsResponse::make($data);
@@ -57,7 +58,7 @@ class CommentsController extends BaseController
      *      tags={"Comments"},
      *      requestBody={"$ref": "#/components/requestBodies/CommentsCreateRequestBody"},
      *
-     *	    @OA\Response(
+     *      @OA\Response(
      *          response=422,
      *          description="",
      *          @OA\JsonContent(
@@ -65,7 +66,7 @@ class CommentsController extends BaseController
      *          )
      *      ),
      *
-     *	    @OA\Response(
+     *      @OA\Response(
      *          response=201,
      *          description="",
      *          @OA\JsonContent(
@@ -99,12 +100,12 @@ class CommentsController extends BaseController
      *          name = "id",
      *          in = "path",
      *          required = true,
-     *			@OA\Schema(
+     *          @OA\Schema(
      *             type="integer"
      *         )
      *      ),
      *
-     *	    @OA\Response(
+     *      @OA\Response(
      *          response=422,
      *          description="",
      *          @OA\JsonContent(
@@ -112,12 +113,12 @@ class CommentsController extends BaseController
      *          )
      *      ),
      *
-     *	    @OA\Response(
+     *      @OA\Response(
      *          response=400,
      *          description="Not found Comments for update"
      *      ),
      *
-     *	    @OA\Response(
+     *      @OA\Response(
      *          response=200,
      *          description="",
      *          @OA\JsonContent(
@@ -128,7 +129,7 @@ class CommentsController extends BaseController
      */
     public function update(int $id, CommentsUpdateRequest $request): JsonResponse
     {
-        if ( ! ($comments = $this->commentsRepository->find($id))) {
+        if (! ($comments = $this->commentsRepository->find($id))) {
             return $this->responseBadRequest();
         }
 
@@ -153,12 +154,12 @@ class CommentsController extends BaseController
      *          name = "id",
      *          in = "path",
      *          required = true,
-     *			@OA\Schema(
+     *          @OA\Schema(
      *             type="integer"
      *         )
      *      ),
      *
-     *	    @OA\Response(
+     *      @OA\Response(
      *          response=422,
      *          description="",
      *          @OA\JsonContent(
@@ -169,12 +170,12 @@ class CommentsController extends BaseController
      */
     public function destroy(int $id)
     {
-        if ( ! $comments = $this->commentsRepository->find($id)) {
+        if (! $comments = $this->commentsRepository->find($id)) {
             return $this->responseBadRequest();
         }
 
         try {
-            if ( ! $this->commentsRepository->destroy($comments)) {
+            if (! $this->commentsRepository->destroy($comments)) {
                 return $this->responseBadRequest();
             }
         } catch (ValidationException $exception) {
