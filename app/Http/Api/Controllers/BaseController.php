@@ -5,6 +5,7 @@ namespace App\Http\Api\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Symfony\Component\HttpFoundation\Response;
+
 use function response;
 
 class BaseController extends Controller
