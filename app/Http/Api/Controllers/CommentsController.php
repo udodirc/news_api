@@ -168,7 +168,7 @@ class CommentsController extends BaseController
      *      )
      * )
      */
-    public function destroy(int $id)
+    public function destroy(int $id): Response|JsonResponse
     {
         if (! $comments = $this->commentsRepository->find($id)) {
             return $this->responseBadRequest();
